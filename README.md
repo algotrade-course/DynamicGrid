@@ -66,9 +66,9 @@ DB_PASSWORD=<password>
 
 ```
 
-python -m venv .venv
+python -m venv venv
 
-source .venv/bin/activate (for Linux distros)
+source venv/bin/activate (for Linux distros)
 
 .\venv\Scripts\activate.bat (for Windows)
 
@@ -513,7 +513,7 @@ take_profit_factor: <number>
 ```
 data:
 
-in_sample_file: "data/sample/vn30_2023.csv"
+out_sample_file: "data/sample/vn30_2023.csv"
 
 fetch_data: false
 
