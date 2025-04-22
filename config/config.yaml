@@ -1,0 +1,49 @@
+# Grid Backtest Configuration
+
+# Data Settings
+data:
+  # Data files for different modes
+  in_sample_file: "data/sample/vn30_2024.csv"
+  out_sample_file: "data/sample/vn30_2023.csv"
+  
+  # Data loading options
+  fetch_data: false
+  save_fetched_data: false
+  
+  # Time ranges
+  in_sample:
+    start_date: "2024-02-15"
+    end_date: "2024-04-30"
+  
+  out_sample:
+    start_date: "2022-12-20"
+    end_date: "2023-12-20"
+
+# Results Configuration
+results:
+  base_directory: "results"  # Base directory for all results
+
+# Strategy Parameters
+strategy:
+  # Capital and trade settings
+  capital: 400000000  # 400 million VND
+  contract_value: 100000  # 100k VND
+  margin_rate: 0.2
+  fee_per_trade: 0.47
+  
+  # Grid strategy parameters
+  grid_size_factor: 7.5
+  minimum_grid_size: 0.6
+  move_pivot: 10
+  take_profit_factor: 1.5
+
+# Optimization Parameters
+optimization:
+  # Number of trials for optimization
+  n_trials: 125
+  
+  # Parameter search ranges
+  grid_size_factor_range: [1.0, 10.0]
+  minimum_grid_size_range: [0.6, 2.0]
+  move_pivot_range: [6, 12]
+  take_profit_factor_range: [0.5, 3.0] 
