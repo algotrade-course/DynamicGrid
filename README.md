@@ -19,9 +19,8 @@ Our approach dynamically set a trading range that is a predefined number of inte
 
 We trained the parameter set of our strategy on the VN30F1M futures index, a derivative instrument linked to the Vietnamese VN30 equity index. The chosen period is within mid-February 2024 and April 2024, because it contains both sideways and trending market movements which may help the trained algorithm to perform better on out-of-sample data or in real trading. After the parameter set has been learned, we apply our algorithm on 2023 market data and generate a 4.12% holding period return during the period.
 
-  
 
-## Related Work (or Background)
+## Related Work
 
 Readers are recommended to read the below resources to have a better understanding of grid trading:
 
@@ -30,6 +29,29 @@ Readers are recommended to read the below resources to have a better understandi
 - FXOpen: https://fxopen.com/blog/en/how-do-grid-trading-strategies-work/
 
 - ATFX: https://www.atfx.com/en/analysis/trading-strategies/what-is-grid-trading-how-does-it-work
+
+
+### Trading Hypothesis
+
+
+In our group's algorithm, when the grid is opened, the current price is set as the PIVOT, simultaneously opening 6 grid levels above and 6 grid levels below, as shown in the figure below:
+
+![Grid Structure](images/grid.png)
+
+The grid size is calculated based on the ATR of a previous time period multiplied by a `grid_size_factor` variable to ensure the size is appropriate for the market's volatility at the time the grid is opened. We also set a `minimum_grid_size` variable to ensure appropriate profits (at least greater than the fees for opening/closing each position). In the Vietnamese stock market, during the process of observing price data, we noticed that price jumps sometimes occur (jumping more than 100 points within a few ticks before reverting to the original price). To address this, we limit the grid size to 10 points (a relatively large value, rarely reached, chosen by the team to prevent price jumps from affecting the ATR used to calculate the grid size). When the price falls to the lower levels of the grid, we will place buy orders (LONG). Conversely, when the price rises to the upper levels of the grid, we will place sell orders (SHORT). Each position, when opened, will also have a corresponding `take_profit` calculated using the formula:
+`take_profit = grid_size * take_profit_factor`
+
+In our current design, we open a maximum of one position at each grid level. When the `take_profit` threshold of a position is reached, we close that position to lock in profits, creating opportunities to open new positions.
+
+In the initial concepts of Grid Trading, when the price completely moves beyond the grid, we would close all open positions, which could lead to losses amounting to dozens of profitable trades. Therefore, in our design, we aim to address situations where the market follows a specific trend (bullish or bearish). Our initial idea was to set the `grid_size_factor` to a relatively large value (as a small `grid_size_factor` would result in frequent grid closures and re-openings, leading to significant losses). Additionally, we came up with the idea of creating a "Do Nothing" zone each time the grid is opened.
+
+![New Grid Structure](images/grid2.png)
+
+When the price enters the "Do Nothing" zone, it serves as a warning that the grid may soon need to be closed. Therefore, we neither open new positions nor close the grid when the price is in this zone, as the name suggests. This helps us avoid scenarios where the price "hits the stop loss and then reverses." The limitation of implementing the "Do Nothing" zone is that it may result in larger losses each time the grid is closed. However, adding this zone reduces the frequency of opening positions when the market is in a prolonged trend - the core problem our team aimed to address initially. During backtesting, we introduced the `move_pivot` variable to compare the effectiveness of having versus not having the "Do Nothing" zone, and the results were more favorable when the zone was included.
+
+The figure below illustrates the performance of the Grid Strategy with and without the "Do Nothing" zone. As you can see, when the market enters a prolonged trend, having the "Do Nothing" zone reduces the frequency of repeatedly closing and creating new grids. Although each loss may be larger, it is offset by the fact that losses occur less frequently.
+
+![Grid Strategy Performance](images/grid3.png)
 
 ## Data
 
