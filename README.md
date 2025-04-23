@@ -39,6 +39,7 @@ In our group's algorithm, when the grid is opened, the current price is set as t
 ![Grid Structure](images/grid.png)
 
 The grid size is calculated based on the ATR of a previous time period multiplied by a `grid_size_factor` variable to ensure the size is appropriate for the market's volatility at the time the grid is opened. We also set a `minimum_grid_size` variable to ensure appropriate profits (at least greater than the fees for opening/closing each position). In the Vietnamese stock market, during the process of observing price data, we noticed that price jumps sometimes occur (jumping more than 100 points within a few ticks before reverting to the original price). To address this, we limit the grid size to 10 points (a relatively large value, rarely reached, chosen by the team to prevent price jumps from affecting the ATR used to calculate the grid size). When the price falls to the lower levels of the grid, we will place buy orders (LONG). Conversely, when the price rises to the upper levels of the grid, we will place sell orders (SHORT). Each position, when opened, will also have a corresponding `take_profit` calculated using the formula:
+
 `take_profit = grid_size * take_profit_factor`
 
 In our current design, we open a maximum of one position at each grid level. When the `take_profit` threshold of a position is reached, we close that position to lock in profits, creating opportunities to open new positions.
