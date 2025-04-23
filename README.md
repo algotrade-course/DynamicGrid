@@ -308,7 +308,7 @@ take_profit_factor: 1.7
 
 ```
   
-- Run the below command to initiate the in-sample backtesting process:
+- Run the below command to initiate the in-sample backtesting process (this is the backtesting result with the initial parameters, if you run this line of code you will get the result of the in_sample backtesting after optimization, not this one):
 
 ```
 
