@@ -1,6 +1,8 @@
+![Static Badge](https://img.shields.io/badge/PLUTUS-80%25-darkgreen)
+![Static Badge](https://img.shields.io/badge/PLUTUS-Sample-darkblue)
+
 # Group 5 - Dynamic Grid Strategy
   
-
 ## Abstract
 
 The project provides an implementation of the grid strategy that aims to remove the need to identify market trends, and instead relies on utilizing price fluctuations to make trading decisions. We designed our solution specifically for Vietnam's derivative markets where the settlement date T+0, allowing traders to open and close multiple positions in a day. The resulting product can generate a 4.12% holding period return when applied to VN30F1M contract data in 2023.
