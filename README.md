@@ -1,7 +1,7 @@
 ![Static Badge](https://img.shields.io/badge/PLUTUS-80%25-darkgreen)
 ![Static Badge](https://img.shields.io/badge/PLUTUS-Sample-darkblue)
 
-# Group 5 - Dynamic Grid Strategy
+# Dynamic Grid Strategy
   
 ## Abstract
 
